@@ -1,0 +1,50 @@
+header {
+    display: flex;
+    padding: 10px 0 10px 10px;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+form:nth-child(1) {
+    width: 80%;
+}
+
+form:nth-child(2) {
+    width: 20%;
+}
+
+form:nth-child(1) input {
+    width: 70%;
+    padding: 10px;
+    display: block;
+    font-weight: 400;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+header button {
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.cinemaApp__searchBtn {
+    background: linear-gradient(to top, #001647, #36a0f1);
+    width: 20%;
+}
+
+.cinemaApp__luckyBtn {
+    margin: 0 auto;
+    background: linear-gradient(to top, #084902, #69ff01);
+    width: 80%;
+}
