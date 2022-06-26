@@ -23,15 +23,20 @@ main {
 
 .cinemaApp__description {
     width: 45%;
-    font-size: 26px;
 }
 
 .cinemaApp__plot_short {
     text-align: center;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: bold;
 }
 
 .cinemaApp__plot {
     text-align: center;
+    font-size: 28px;
+}
+
+.cinemaApp__description section {
+    margin: 0 0 15px 0;
+    font-size: 32px;
 }

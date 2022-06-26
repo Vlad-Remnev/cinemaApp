@@ -1,9 +1,9 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './Main.css';
 
-interface IMain {
-    films: IFilm[]
-}
+// interface IMain {
+//     films: IFilm[]
+// }
 
 interface IFilm {
     id: number
@@ -16,7 +16,15 @@ interface IFilm {
     plot: string
 }
 
-export const Main: FC<IMain> = ({films}) => {
+export const Main = () => {
+    const [films, setFilms] = useState<IFilm[]>([]);
+    useEffect(() => {
+        fetch(`http://localhost:3001/movies`)
+            .then(res => res.json())
+            .then(data => {
+                setFilms(data.items)
+            })
+    }, [])
     return (
         <main>
             <section className={"cinemaApp__info"}>
@@ -26,12 +34,12 @@ export const Main: FC<IMain> = ({films}) => {
                 {films.map((item, index) => {
                     return (
                         <section key={index} className="cinemaApp__description">
-                            <section key={index + 1} className="cinemaApp__info-title"><span>Title:</span>{item.title}</section>
-                            <section key={index + 2} className="cinemaApp__info-genres"><span>Genres:</span>{item.genres}</section>
-                            <section key={index + 3} className="cinemaApp__info-director"><span>Director:</span>{item.director}</section>
-                            <section key={index + 4} className="cinemaApp__info-writer"><span>Writers:</span>{item.writers}</section>
-                            <section key={index + 5} className="cinemaApp__info-year"><span>Year:</span>{item.year}</section>
-                            <section key={index + 6} className="cinemaApp__info-cast"><span>Cast:</span>{item.cast}</section>
+                            <section key={index + 1} className="cinemaApp__info-title"><span>Title: </span>{item.title}</section>
+                            <section key={index + 2} className="cinemaApp__info-genres"><span>Genres: </span>{item.genres}</section>
+                            <section key={index + 3} className="cinemaApp__info-director"><span>Director: </span>{item.director}</section>
+                            <section key={index + 4} className="cinemaApp__info-writer"><span>Writers: </span>{item.writers}</section>
+                            <section key={index + 5} className="cinemaApp__info-year"><span>Year: </span>{` ${item.year}`}</section>
+                            <section key={index + 6} className="cinemaApp__info-cast"><span>Cast: </span>{item.cast}</section>
                         </section>
                     )
                 })}
