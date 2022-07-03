@@ -1,4 +1,6 @@
 const express = require('express')
+require('./models/db')
+const Movie = require('./models/Movie')
 const app = express()
 const cors = require("cors");
 const port = 3001
@@ -9,21 +11,28 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.get('/movies', (req, res) => {
+app.get('/movies', async (req, res) => {
+    const {genres, q} = req.query
+    const arrGenres = genres ? genres.split(',') : []
+    const criteria = {}
+    if (arrGenres.length) {
+        criteria.genres = {$all: arrGenres}
+    }
+    if (q) {
+        // const search = q + ' '
+        criteria.title = {$regex: q, $options: 'i'}
+    }
     res.json({
-        items: [
-            {
-                id: 1,
-                title: 'In the Land of the Head Hunters',
-                genres: ['Drama, ', 'History'],
-                director: 'Edward S. Curtis',
-                writers: ['Edward S. Curtis (story)'],
-                year: 1972,
-                cast: ['Stanley Hunt, ', 'Sarah Constance Smith Hunt, ',
-                    'Mrs. George Walkus, ', 'Paddy \'Malid, '],
-                plot: 'Original advertising for the film describes it as a drama of primitive life on the shores of the North Pacific...'
-            }
-        ]
+        count: await Movie.countDocuments(criteria),
+        items: await Movie.find(criteria).limit(1)
+    })
+})
+
+app.get('/movies/:movieId', async (req, res) => {
+    res.json({
+        item: await Movie.findById(
+            req.params.movieId
+        )
     })
 })
 
