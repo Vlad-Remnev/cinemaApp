@@ -11,21 +11,57 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+const defaultCriteria = {
+    poster: {$exists: true},
+    plot: {$exists: true}
+}
+
 app.get('/movies', async (req, res) => {
-    const {genres, q} = req.query
-    const arrGenres = genres ? genres.split(',') : []
-    const criteria = {}
-    if (arrGenres.length) {
-        criteria.genres = {$all: arrGenres}
+    try {
+        const {genres, q} = req.query
+        const arrGenres = genres ? genres.split(',') : []
+        const criteria = {}
+        if (arrGenres.length) {
+            criteria.genres = {$all: arrGenres}
+        }
+        if (q) {
+            // const search = q + ' '
+            criteria.title = {$regex: q, $options: 'i'}
+        }
+        const finalCriteria = {$and: [criteria, defaultCriteria]}
+        res.json({
+            count: await Movie.countDocuments(finalCriteria),
+            items: await Movie.find(finalCriteria).limit(6)
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({messgae: error.message})
     }
-    if (q) {
-        // const search = q + ' '
-        criteria.title = {$regex: q, $options: 'i'}
+})
+
+const getRandom = (count) => {
+    return Math.floor(Math.random() * count)
+}
+
+app.get('/movies/random', async (req, res) => {
+    try {
+        const {genres} = req.query
+        const arrGenres = genres ? genres.split(',') : []
+        const criteria = {}
+        if (arrGenres.length) {
+            criteria.genres = {$all: arrGenres}
+        }
+        const finalCriteria = {$and: [criteria, defaultCriteria]}
+        const count = await Movie.countDocuments(finalCriteria)
+        const skip = getRandom(count)
+        console.log(skip)
+        res.json({
+            item: (await Movie.find(finalCriteria).limit(1).skip(skip))[0]
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({messgae: error.message})
     }
-    res.json({
-        count: await Movie.countDocuments(criteria),
-        items: await Movie.find(criteria).limit(1)
-    })
 })
 
 app.get('/movies/:movieId', async (req, res) => {

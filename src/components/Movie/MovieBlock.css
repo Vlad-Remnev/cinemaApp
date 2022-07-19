@@ -1,0 +1,39 @@
+.cinemaApp__info {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.cinemaApp__poster {
+    width: 45%;
+}
+
+.cinemaApp__poster img {
+    display: block;
+    width: 100%;
+}
+
+.cinemaApp__description span {
+    font-weight: bold;
+}
+
+.cinemaApp__description {
+    width: 45%;
+}
+
+.cinemaApp__plot_short {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.cinemaApp__plot {
+    text-align: center;
+    font-size: 28px;
+}
+
+.cinemaApp__description section {
+    margin: 0 0 15px 0;
+    font-size: 32px;
+}
+

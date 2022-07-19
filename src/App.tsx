@@ -3,6 +3,7 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Main} from "./components/Main/Main";
 import {Footer} from "./components/Footer/Footer";
+import {DataProvider} from "./components/Context/DataContext";
 
 // const films = [
 //     {
@@ -20,11 +21,13 @@ import {Footer} from "./components/Footer/Footer";
 
 function App() {
     return (
-        <div className="cinemaApp">
-            <Header/>
-            <Main/>
-            <Footer/>
-        </div>
+        <DataProvider>
+            <div className="cinemaApp">
+                <Header/>
+                <Main/>
+                <Footer/>
+            </div>
+        </DataProvider>
     );
 }
 
